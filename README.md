@@ -1,8 +1,8 @@
-## Sequential Quiz App
+# Sequential Quiz App
 
 An interactive multiple-choice quiz web app featuring sequential question flow (10+ questions), non-repeating answers, and one question displayed at a time. Includes image-based feedback and customizable themes. Built with HTML, CSS, and JavaScript for an engaging learning experience.
 
-# Features
+## Features
 
 Sequential Questions – Questions appear one by one in order.
 
@@ -12,7 +12,7 @@ Four Options – Multiple-choice format with radio buttons.
 
 Image Feedback – Visual response for correct or incorrect answers.
 
-# Usage
+## Usage
 
 Select an answer for each question.
 
