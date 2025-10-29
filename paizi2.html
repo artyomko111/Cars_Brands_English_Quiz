@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>English Challenge</title>
+</head>
+<body onload="next();">
+    <p>English challenge!</p>
+    <hr>
+    <p><span id="qq">?</span> 請選出正確的英文單字</p>
+
+    <input type="radio" name="pp" onclick="ans=1;" id="c1"><span id="s0">?</span>&nbsp;
+    <input type="radio" name="pp" onclick="ans=2;" id="c2"><span id="s1">?</span>&nbsp;
+    <input type="radio" name="pp" onclick="ans=3;" id="c3"><span id="s2">?</span><br>
+
+    <button onclick="check();">Check Answer</button>
+    <button onclick="next();">Next</button>
+    <button onclick="reset();">Try Again</button><br>
+    <p><span id="fb1">?</span></p>
+    <hr>
+    <button onclick="showerror();">Show Error</button>
+    <p><span id="er1">?</span></p>
+
+<script>
+var i = 0, sc = 0, ans = 0;
+
+// Questions array
+var quest = [
+    '請選擇大众車名',
+    '哪個是德國車',
+    '哪個品牌最豪華',
+    '哪個品牌是日本車',
+    '選出正確品牌',
+    '哪個是瑞典車',
+    '哪個品牌最便宜',
+    '選擇跑車品牌',
+    '哪個是寶馬車',
+    '最後一題, 哪一個是台湾的牌子'
+];
+
+// Correct answers (radio button number: 1,2,3)
+var correct = [1,2,2,3,2,1,1,2,2,1];
+
+// Array of options for each question
+var options = [
+    ['Volkswagen','Volvo','BMW'],           // question 1
+    ['Porsche','Renault','Toyota'],         // question 2
+    ['Mitsubishi','Maserati','Mazda'],      // question 3
+    ['Luxgen','Volkswagen','Toyota'],       // question 4
+    ['Nivea','Porsche','Apple'],            // question 5
+    ['Volvo','Mazda','Toyota'],             // question 6
+    ['Volkswagen','Renault','Mitsubishi'],  // question 7
+    ['Porsche','Maserati','BMW'],           // question 8
+    ['Volkswagen','BMW','Mazda'],           // question 9
+    ['Luxgen','Toyota','Mitsubishi']        // question 10
+];
+
+var reply = new Array(quest.length).fill(0);
+
+function check() {
+    var msg="";
+
+    // Prevent multiple scoring for the same question
+    if (reply[i-1] !== 0) {
+        msg = "You already answered this question!";
+    } else {
+        if (ans == correct[i-1]) {
+            sc += 5;
+            msg = "Good job!! <img src='o.gif' width=60 height=60 align='middle'>";
+            reply[i-1] = 1; // mark as answered correctly
+        } else {
+            msg = "Bad!! <img src='x.jpg' width=60 height=60 align='middle'>";
+            reply[i-1] = -1; // mark as answered incorrectly
+        }
+    }
+
+    document.getElementById('fb1').innerHTML = 
+        "<span style='color:red'>" + msg + ", Score:" + sc + "</span>";
+
+    closesel();
+}
+
+function next() {
+    opensel();
+
+    if (i < quest.length) {
+        document.getElementById('qq').innerHTML = quest[i];
+        document.getElementById('s0').innerHTML = options[i][0];
+        document.getElementById('s1').innerHTML = options[i][1];
+        document.getElementById('s2').innerHTML = options[i][2];
+
+        // Reset the selected answer
+        ans = 0;
+
+        // Special case for the third question (index 2)
+        if (i === 2) {  // third question
+            document.getElementById('c1').checked = true;  // select the first option by default
+            ans = 1;  // default answer is 1
+        } else {
+            // Reset radio buttons for other questions
+            document.getElementById('c1').checked = false;
+            document.getElementById('c2').checked = false;
+            document.getElementById('c3').checked = false;
+        }
+
+        i++;  // increment index after showing the question
+    }
+}
+
+function reset() {
+    sc = 0;
+    i = 0;
+    ans = 0;
+    reply.fill(0);
+
+    // Очистим текст вопросов и ответов
+    document.getElementById('qq').innerHTML = "";
+    document.getElementById('s0').innerHTML = "";
+    document.getElementById('s1').innerHTML = "";
+    document.getElementById('s2').innerHTML = "";
+    document.getElementById('fb1').innerHTML = "";
+    document.getElementById('er1').innerHTML = "";
+
+    // Сбросим выбор радиокнопок
+    document.getElementById('c1').checked = false;
+    document.getElementById('c2').checked = false;
+    document.getElementById('c3').checked = false;
+
+    // Снова откроем выбор
+    opensel();
+
+    // Запускаем тест заново
+    next();
+}
+
+function opensel() {
+    document.getElementById('c1').disabled = false;
+    document.getElementById('c2').disabled = false;
+    document.getElementById('c3').disabled = false;
+}
+
+function closesel() {
+    document.getElementById('c1').disabled = true;
+    document.getElementById('c2').disabled = true;
+    document.getElementById('c3').disabled = true;
+}
+
+function showerror() {
+    var errMsg = "";
+    for (var j = 0; j < reply.length; j++) {
+        if (reply[j] === -1) {
+            errMsg += "Q" + (j + 1) + ", ";
+        }
+    }
+    if (errMsg === "") {
+        errMsg = "None!";
+    }
+    document.getElementById('er1').innerHTML = 
+        "<span style='color:red'>Error(s) in Question: " + errMsg + "</span>";
+}
+
+
+
+</script>
+</body>
+</html>
+
+
